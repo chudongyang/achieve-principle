@@ -12,9 +12,31 @@ Learning to achieve common Javascript library！
   - 捕获错误的机制是， 默认找离的最近的then的失败函数，没有就继续向下找
   - 与jQuery链式调用返回的this不一样，promise调用then后，会返回一个新的promise
 - 实现promise.then().then().then() 这种值的穿透
-- promise的测试s，使用官方提供的promises-aplus-tests包 ![promises-tests](https://github.com/promises-aplus/promises-tests)
+- promise的测试s，使用官方提供的promises-aplus-tests包 [promises-tests](https://github.com/promises-aplus/promises-tests)
 - 实现Promise.all()、Promise.race()、Promise.resolve()、Promise.reject()、Promise.prototype.catch()、Promise.prototype.finally()等方法, finally方法是ES2018才有的
 > promise最大的有点就是链式调用
 
 ## 实现Node.js中的events事件触发器
+- events模块是node中的核心模块
 
+
+### commonjs规范的实现
+- commonjs规范 通过文件读取（utf8）实现了模块化
+  - 文件即模块
+  - 定义了导出方式 module.exports  exports
+  - 定义了导入方式 require
+- commonjs规范的实现
+  - 实现一个require方法
+  - 通过Module._load 方法加载模块
+  - Module._resolveFilename 根据相对路径获取绝对路径 并且增加后缀
+  - 模块的缓存问题 Module._cache
+  - new Module 创建模块 id存的是名字
+  - tryModuleLoad(module) 尝试加载这个模块
+    - 取出文件的后缀
+    - 加载模块 （读取模块）
+    - Module.wrap 包裹读取的内容
+    - 使用runInThisContext 运行字符串
+    - 让字符串执行 this改变成 exports
+- module.exports 和 exports的区别 
+  - exports是module.exports的别名，指向的是同一个命名空间
+  - 不能直接改变exports对象的引用，因为不会影响module.exports对象
