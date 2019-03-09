@@ -42,14 +42,40 @@ function tryModuleLoad(module) {
   Module._extension[extension](module);
 }
 
-function req(modulePath) {
-  // 获取当前要加载的绝对路径 尝试去加载这个模块 req方法会默认返回module.exports;
-  let absPath = path.resolve(__dirname, modulePath);
-  if (Module._cache[absPath]) { // 如果该文件已经加载过
-    return Module._cache[absPath].exports;
+Module._resolveFilename = function (pathname) {
+  let absPath = path.resolve(__dirname, pathname);
+  // 增加没有添加后缀名的逻辑
+  let extensions = Object.keys(Module._extension);
+  let index = 0;
+  let oldPath = absPath;
+  let realPath;
+  function find(absPath) {
+    if (index === extensions.length) {
+      throw new Error('module not exists');
+      return;
+    }
+    try{
+      fs.accessSync(absPath);
+      // 这里return absPath外面获取不到，为什么？
+      realPath = absPath;
+    }catch(e) {
+      let ext = extensions[index++];
+      find(oldPath + ext);
+    }
   }
-  let module = new Module(absPath);
-  Module._cache[absPath] = module;
+  find(absPath);
+  return realPath;
+}
+
+function req(modulePath) {
+  // 解析当前模块的路径 尝试去加载这个模块 req方法会默认返回module.exports;
+  let realPath = Module._resolveFilename(modulePath);
+  console.log(realPath, 1111)
+  if (Module._cache[realPath]) { // 如果该文件已经加载过
+    return Module._cache[realPath].exports;
+  }
+  let module = new Module(realPath);
+  Module._cache[realPath] = module;
   tryModuleLoad(module);
   return module.exports;
 }
