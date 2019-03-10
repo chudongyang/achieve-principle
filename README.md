@@ -1,7 +1,7 @@
 # achieve-principle
 Learning to achieve common Javascript library！
 
-## 根据promise/A+规范实现promise
+### 根据promise/A+规范实现promise
 - 实现执行器中只是简单的同步的代码 resolved('success')或者rejected('error')
 - 实现执行器中存在异步代码的情况， setTimeout(() => {resolved('success')}, 0)
 - 实现当执行器中throw 抛出错误之后，then函数直接走失败的回调的情况
@@ -16,7 +16,7 @@ Learning to achieve common Javascript library！
 - 实现Promise.all()、Promise.race()、Promise.resolve()、Promise.reject()、Promise.prototype.catch()、Promise.prototype.finally()等方法, finally方法是ES2018才有的
 > promise最大的有点就是链式调用
 
-## 实现Node.js中的events事件触发器
+### 实现Node.js中的events事件触发器
 - events模块是node中的核心模块
 
 
@@ -40,3 +40,5 @@ Learning to achieve common Javascript library！
 - module.exports 和 exports的区别 
   - exports是module.exports的别名，指向的是同一个命名空间
   - 不能直接改变exports对象的引用，因为不会影响module.exports对象
+
+### pipe方法的实现
