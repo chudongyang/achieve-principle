@@ -1,0 +1,23 @@
+{
+  "name": "achieve-principle",
+  "version": "1.0.0",
+  "description": "Learning to achieve common Javascript library！",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chudongyang/achieve-principle.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chudongyang/achieve-principle/issues"
+  },
+  "homepage": "https://github.com/chudongyang/achieve-principle#readme",
+  "dependencies": {
+    "ejs": "^2.6.1"
+  }
+}
