@@ -1,5 +1,6 @@
 let http = require('http');
 let url = require('url');
+let methods = require('methods');
 
 function application() {
   let app = (req, res) => {
@@ -7,24 +8,29 @@ function application() {
     let requestMethod = req.method.toLowerCase();
     for(let i = 0; i < app.routes.length; i++) {
       let {path, method, handle} = app.routes[i];
-      if (path === pathname && requestMethod === method) {
+      // 如果路由中 路径是*能匹配到， 方法是all 也能匹配到
+      if ((path === pathname || path === '*' ) && (requestMethod === method) || (method === 'all')) {
         return handle(req, res);
       }
     }
+    // 找不到任何路由
+    res.end(`Cannot ${requestMethod} ${pathname}`);
   }
 
-  // 存放
+  // 存放 方法调用时的layer
   app.routes = [];
   // 
-  app.get = function(path, handle) {
-    let layer = {
-      path,
-      method: 'get',
-      handle
-    };
-    app.routes.push(layer);
-  }
-
+  [...methods, 'all'].forEach(method => {
+    app[method] = function(path, handle) {
+      let layer = {
+        path,
+        method,
+        handle
+      };
+      app.routes.push(layer);
+    }
+  })
+  
   app.listen = function() {
     let server = http.createServer(app);
     server.listen(...arguments);
