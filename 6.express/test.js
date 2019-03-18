@@ -6,8 +6,8 @@ app.get('/', function(req, res){
   res.end('home');
 })
 
-app.get('/index', function(req, res){
-  res.end('index page');
+app.get('/index/:id/:name', function(req, res){
+  res.end(JSON.stringify(req.params));
 })
 
 // curl postman 测试post请求
