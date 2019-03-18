@@ -1,15 +1,19 @@
 let express = require('./express');
-
+let path = require('path');
 let app = express();
 
-app.use('/api', function(req, res, next){
-  console.log(1);
-  next('出错了');
-})
+// app.use('/api', function(req, res, next){
+//   console.log(1);
+//   next();
+// })
 
-app.use('/api', function(req, res, next){
-  console.log(2);
-  next();
+// app.use('/api', function(req, res, next){
+//   console.log(2);
+//   next();
+// })
+
+app.get('/', function(req, res){
+  res.sendFile(path.resolve(__dirname, 'index.html'));
 })
 
 app.get('/api', function(req, res){
@@ -30,10 +34,9 @@ app.post('/home', function(req, res){
 //   res.end('404');
 // })
 
-app.use(function(err, req, res, next){
-  console.log(err);
-  res.end('wrong');
-})
+// app.use(function(err, req, res, next){
+//   res.end('wrong');
+// })
 
 app.listen(3000, function(){
   console.log('3000 start');

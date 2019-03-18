@@ -1,6 +1,8 @@
 let http = require('http');
 let url = require('url');
 let methods = require('methods');
+let mime = require('mime');
+let fs = require('fs');
 
 function application() {
   let app = (req, res) => {
@@ -8,6 +10,10 @@ function application() {
     let requestMethod = req.method.toLowerCase();
     let index = 0;
     function next(err){
+      if (index === app.routes.length) {
+        res.statusCode = 404;
+        return res.end(`Cannot ${requestMethod} ${pathname}`);
+      }
       let {path, method, handler} = app.routes[index++];
       if (err) {
         // handler.length 指的是函数的参数个数
@@ -17,10 +23,6 @@ function application() {
           next(err);
         }
       } else {
-        if (index === app.routes.length) {
-          res.statusCode = 404;
-          return res.end(`Cannot ${requestMethod} ${pathname}`);
-        }
         if (method === 'middleware') { // 中间件的逻辑
           if (path === pathname || path === '/' || pathname.startsWith(path + '/')) {
             return handler(req,res, next);
@@ -39,7 +41,6 @@ function application() {
           }
           // 如果路由中 路径是*能匹配到， 方法是all 也能匹配到
           if ((path === pathname || path === '*' ) && (requestMethod === method) || (method === 'all')) {
-            console.log(3)
             return handler(req, res);
           }
         }
@@ -87,6 +88,30 @@ function application() {
     };
     app.routes.push(layer);
   }
+
+  app.use(function(req, res, next) {
+    let {query, pathname} = url.parse(req.url);
+    req.query = query;
+    req.path = pathname;
+    res.send = function(value) {
+      if (typeof value === 'object') {
+        res.setHeader('Content-Type', 'application/json;charset=utf-8');
+        res.end(JSON.stringify(value));
+      } else if (typeof value === 'number') {
+        let status = require('_http_server').STATUS_CODES;
+        res.statusCode = value;
+        res.end(status[value]);
+      } else {
+        res.setHeader('Content-Type', 'text/html;charset=utf-8');
+        res.end(value);
+      }
+    }
+    res.sendFile = function(p) {
+      res.setHeader('Content-Type', `${mime.getType(p)};charset=utf-8`);
+      fs.createReadStream(p).pipe(res);
+    }
+    next();
+  })
   
   app.listen = function() {
     let server = http.createServer(app);
