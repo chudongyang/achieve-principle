@@ -2,8 +2,18 @@ let express = require('./express');
 
 let app = express();
 
-app.get('/', function(req, res){
-  res.end('home');
+app.use('/api', function(req, res, next){
+  console.log(1);
+  next('出错了');
+})
+
+app.use('/api', function(req, res, next){
+  console.log(2);
+  next();
+})
+
+app.get('/api', function(req, res){
+  res.end('api home');
 })
 
 app.get('/index/:id/:name', function(req, res){
@@ -16,8 +26,13 @@ app.post('/home', function(req, res){
 })
 
 // 匹配所有的请求方法 所有的路径
-app.all('*', function(req, res) {
-  res.end('404');
+// app.all('*', function(req, res) {
+//   res.end('404');
+// })
+
+app.use(function(err, req, res, next){
+  console.log(err);
+  res.end('wrong');
 })
 
 app.listen(3000, function(){
