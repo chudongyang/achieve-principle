@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    #btn{
+      width: 80px;
+      height: 30px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <button id='btn'>点我吧</button>
+  <script>
+    // 当我们快速点击的时候，可以设置1s内的点击事件只执行一次
+    let btn = document.getElementById('btn');
+    // 封装节流函数
+    function throttle(callback, delay, options) {
+      let prevTime = 0; // 记录上一次的执行时间
+      let args, context, timer ;
+      let later = function() { // 最后一次执行的函数
+        prevTime = options.leading === false ? 0 : Date.now();
+        callback.apply(context, args);
+      }
+      let throttled = function() {
+        args = arguments;
+        context = this;
+        let nowTime = Date.now(); // 现在的时间戳
+        if (!prevTime && options.leading === false) prevTime = nowTime;
+        let remaning = delay - (nowTime - prevTime); 
+        if (remaning <= 0) { // 第一次
+          if (timer) { // 只保留最后一次的定时器
+            clearInterval(timer);
+            timer = null;
+          }
+          callback.apply(context, args);
+          prevTime = nowTime;
+        }else if (!timer && options.trailing !== false) { // trailing传了true或者不传是undefined，都可以触发
+          timer = setTimeout(later, remaning);
+        }
+      }
+      return throttled;
+    }
+    function handle(e) {
+      console.log('我被点击了！', e);
+    }
+    // trailing设置为true，表示最后一次点击要生效(默认就应该生效); leading设置为false,表示第一次的点击是不需要的
+    btn.addEventListener('click', throttle(handle, 1000, {trailing: true}));
+  </script>
+</body>
+</html>

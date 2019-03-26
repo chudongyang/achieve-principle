@@ -3,6 +3,7 @@ let url = require('url');
 let methods = require('methods');
 let mime = require('mime');
 let fs = require('fs');
+let path = require('path');
 
 function application() {
   let app = (req, res) => {
@@ -118,6 +119,21 @@ function application() {
     server.listen(...arguments);
   }
   return app;
+}
+
+// 静态服务中间件的实现
+application.static = function(root) {
+  return function(req, res, next){
+    let absPath = path.join(root, req.path);
+    fs.stat(absPath, function(err, statObj) {
+      if (err) {
+        return next();
+      }
+      if (statObj.isFile()) {
+        fs.createReadStream(absPath).pipe(res);
+      }
+    })
+  }
 }
 
 module.exports = application;

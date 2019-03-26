@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    #btn{
+      width: 80px;
+      height: 30px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <button id='btn'>点我吧</button>
+  <script>
+    // 当我们快速点击的时候，可以设置1s内的点击事件只执行一次
+    let btn = document.getElementById('btn');
+    // 封装节流函数
+    function throttle(callback, delay){
+      let prevTime = 0; // 记录上一次执行的时间
+      return function() {
+        let nowTime = Date.now(); // 获取点击时候的时间戳
+        if (nowTime - prevTime > delay) { // 第一次肯定会执行
+          callback.apply(this, arguments);
+          prevTime = nowTime;
+        }
+      }
+    }
+    function handle(e) {
+      console.log('我被点击了！', e);
+    }
+    btn.addEventListener('click', throttle(handle, 1000));
+  </script>
+</body>
+</html>

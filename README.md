@@ -12,7 +12,7 @@ Learning to achieve common Javascript library！
   - 捕获错误的机制是， 默认找离的最近的then的失败函数，没有就继续向下找
   - 与jQuery链式调用返回的this不一样，promise调用then后，会返回一个新的promise
 - 实现promise.then().then().then() 这种值的穿透
-- promise的测试s，使用官方提供的promises-aplus-tests包 [promises-tests](https://github.com/promises-aplus/promises-tests)
+- promise的测试s，使用官方提供的promises-aplus-tests包 
 - 实现Promise.all()、Promise.race()、Promise.resolve()、Promise.reject()、Promise.prototype.catch()、Promise.prototype.finally()等方法, finally方法是ES2018才有的
 > promise最大的有点就是链式调用
 
