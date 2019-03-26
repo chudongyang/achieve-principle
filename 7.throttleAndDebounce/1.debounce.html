@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>防抖</title>
+  <style>
+    #btn{
+      width: 80px;
+      height: 30px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <button id='btn'>点我吧</button>
+  <script>
+    // 当我们快速点击的时候，连续点击过程中不执行，只有松手后1s才执行一次函数， 第一次的点击也需要执行
+    let btn = document.getElementById('btn');
+    // 封装防抖函数
+    function debounce(callback, delay, immediate){
+      let timer;
+      return function() { // 当我点击的时候开启一个定时器，点击第二次的时候清掉定时器，再开启一个新的，只有停下delay时间后才执行
+        if (immediate) { // 第一次点击时，timer是undefined，所以callNow是true，第二次以后timer有值，callNow就是false了
+          let callNow = !timer;
+          if (callNow) callback.apply(this, arguments);
+        }
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+          callback.apply(this, arguments);
+          timer = null; // 这里等函数执行完成后重置timer，是为了下一轮的第一次点击击可以生效
+        }, delay)
+      }
+    }
+    function handle(e) {
+      console.log('我被点击了！', e);
+    }
+    // 第三个参数为true，表示第一次点击的时候需要触发一次
+    btn.addEventListener('click', debounce(handle, 1000, true));
+  </script>
+</body>
+</html>
