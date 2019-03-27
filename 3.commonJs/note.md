@@ -1,0 +1,20 @@
+### commonjs规范的实现
+- commonjs规范 通过文件读取（utf8）实现了模块化
+  - 文件即模块
+  - 定义了导出方式 module.exports  exports
+  - 定义了导入方式 require
+- commonjs规范的实现
+  - 实现一个require方法
+  - 通过Module._load 方法加载模块
+  - Module._resolveFilename 根据相对路径获取绝对路径 并且增加后缀
+  - 模块的缓存问题 Module._cache
+  - new Module 创建模块 id存的是名字
+  - tryModuleLoad(module) 尝试加载这个模块
+    - 取出文件的后缀
+    - 加载模块 （读取模块）
+    - Module.wrap 包裹读取的内容
+    - 使用runInThisContext 运行字符串
+    - 让字符串执行 this改变成 exports
+- module.exports 和 exports的区别 
+  - exports是module.exports的别名，指向的是同一个命名空间
+  - 不能直接改变exports对象的引用，因为不会影响module.exports对象
