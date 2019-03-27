@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>cros解决跨域</title>
+</head>
+<body>
+  hello world
+  <script>
+    // 需要在vscode中使用 open with live server 打开，此时问件域名是 http://127.0.0.1:5500
+    // 这种方式需要服务端设置允许跨域的响应头，详情设置请看server.js中express中间件中响应头的设置
+    let xhr = new XMLHttpRequest;
+    xhr.open('PUT', 'http://localhost:3000/cors', true);
+    xhr.setRequestHeader('token', '123');
+    xhr.onreadystatechange = function(){
+      if (xhr.readyState === 4) {
+        if ((xhr.status >=200 && xhr.status < 300) || xhr.status === 304) {
+          console.log(xhr.response);
+        }
+      }
+    }
+    xhr.send();
+  </script>
+</body>
+</html>

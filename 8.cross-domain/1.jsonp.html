@@ -28,16 +28,27 @@
         document.body.appendChild(script);
       })
     }
+    // 请求百度的接口
+    // jsonp({
+    //   url: 'https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su?',
+    //   params: {
+    //     wd: 'hello'
+    //   },
+    //   cb: 'show'
+    // }).then(data=> {
+    //   console.log(data, 1);
+    // })
+
+    // 请求本地模拟的服务器接口，首先要启动server.js文件
     jsonp({
-      url: 'https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su?',
+      url: 'http://localhost:3000/jsonp',
       params: {
-        wd: '爱'
+        wd: 'hello'
       },
       cb: 'show'
-    }).then(data=> {
-      console.log(data, 111);
+    }).then(data => {
+      console.log(data, 2);
     })
-    
   </script>
 </body>
 </html>
