@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>jsonp解决跨域</title>
+</head>
+<body>
+  <script>
+    // url: 请求的路径， params: 请求的参数对象， cb: 传给后台的函数名
+    function jsonp({url, params, cb} = {}) {
+      return new Promise((resolve, reject) => {
+        // 创建script标签，设置其src地址
+        let script = document.createElement('script');
+        // 定义一个全局函数，等后台返回cb(data)时,这个函数会执行
+        window[cb] = function(data) {
+          resolve(data);
+          document.body.removeChild(script);
+        }
+        params = {...params, cb};
+        // 把所有要拼接的参数以key=value的形式放在数组里
+        let arrs = []; 
+        for(let key in params) {
+          arrs.push(`${key}=${params[key]}`);
+        }
+        script.src=`${url}?${arrs.join('&')}`;
+        document.body.appendChild(script);
+      })
+    }
+    jsonp({
+      url: 'https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su?',
+      params: {
+        wd: '爱'
+      },
+      cb: 'show'
+    }).then(data=> {
+      console.log(data, 111);
+    })
+    
+  </script>
+</body>
+</html>
