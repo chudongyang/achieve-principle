@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>domain实现跨域</title>
+</head>
+<body>
+  <iframe src="http://b.chudongyang.cn:3000/index.html" frameborder="0" id="iframe" onload="loadFn()"></iframe>
+  <script>
+    // 为了在本地能够测试，我们需要在hosts里配置两个一级域名一样的二级域名，比如 a.chudongyang.cn 和 b.chudongyang.cn, 启动server.js 服务
+    document.domain = 'chudongyang.cn'; // 核心代码，两个页面都需要加
+    function loadFn() {
+      let iframe = document.getElementById('iframe');
+      console.log(iframe.contentWindow._a); 
+    }
+  </script>
+</body>
+</html>

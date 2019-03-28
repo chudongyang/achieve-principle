@@ -20,6 +20,8 @@
   "dependencies": {
     "ejs": "^2.6.1",
     "express": "^4.16.4",
-    "mime": "^2.4.0"
+    "http-proxy-middleware": "^0.19.1",
+    "mime": "^2.4.0",
+    "ws": "^6.2.1"
   }
 }
