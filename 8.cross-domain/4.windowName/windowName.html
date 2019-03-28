@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>window.name实现跨域</title>
+</head>
+<body>
+  <iframe src="http://localhost:3000/index.html" frameborder="0" id="iframe" onload="loadFn()"></iframe>
+  <script>
+    // windowName和middelPage都使用 Open With Live Server打开，这两个页面是同域的，index页面使用通过执行server.js后 http://localhost:3000/index.html打开。
+    let isFist = true; // 定义是否是第一次加载iframe
+    function loadFn() {
+      let iframe = document.getElementById('iframe');
+      if (isFist) {
+        iframe.src = 'http://127.0.0.1:5500/achieve-principle/8.cross-domain/4.windowName/middlePage.html'
+        isFist = false;
+      } else {
+        // 这里获得name通过iframe.contentWindow获取的
+        console.log(iframe.contentWindow.name);
+      }
+    }
+  </script>
+</body>
+</html>

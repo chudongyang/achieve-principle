@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/chudongyang/achieve-principle#readme",
   "dependencies": {
-    "ejs": "^2.6.1"
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "mime": "^2.4.0"
   }
 }

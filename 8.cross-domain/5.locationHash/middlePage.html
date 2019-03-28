@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>我是中间页面</title>
+</head>
+<body>
+  我是中间页面middlePage和locationHash是同域的
+  <script>
+    // 因为locationHash页面的iframe引用了index页面，index页面引用了middlePage页面
+    window.parent.parent.window.location.hash = location.hash;
+  </script>
+</body>
+</html>

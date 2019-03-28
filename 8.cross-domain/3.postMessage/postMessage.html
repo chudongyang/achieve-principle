@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>postMessage实现跨域</title>
+</head>
+<body>
+  <iframe src="http://localhost:3000/index.html" frameborder="0" id="iframe" onload="loadFn()"></iframe>
+  <script>
+    // 测试postMessage实现跨域，需要先启动server.js服务
+    function loadFn() {
+      let iframe = document.getElementById('iframe');
+      // 获取iframe的window对象，使用postMessage的api
+      iframe.contentWindow.postMessage('index页面你好', 'http://localhost:3000');
+      // 使用这个页面的window对象接收数据
+      window.onmessage = function(e) {
+        console.log(e.data);
+      }
+    }
+  </script>
+</body>
+</html>

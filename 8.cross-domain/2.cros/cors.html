@@ -12,12 +12,15 @@
     // 需要在vscode中使用 open with live server 打开，此时问件域名是 http://127.0.0.1:5500
     // 这种方式需要服务端设置允许跨域的响应头，详情设置请看server.js中express中间件中响应头的设置
     let xhr = new XMLHttpRequest;
+    document.cookie = 'name=hello';
+    xhr.withCredentials = true; // 强制携带cookie等凭证
     xhr.open('PUT', 'http://localhost:3000/cors', true);
     xhr.setRequestHeader('token', '123');
     xhr.onreadystatechange = function(){
       if (xhr.readyState === 4) {
         if ((xhr.status >=200 && xhr.status < 300) || xhr.status === 304) {
           console.log(xhr.response);
+          console.log(xhr.getResponseHeader('name'));
         }
       }
     }

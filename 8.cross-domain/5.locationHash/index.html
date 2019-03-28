@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>index页面</title>
+</head>
+<body>
+  我是index页面
+  <script>
+    // 创建iframe标签，引用给middlePage页面并且给其设置hash值
+    let iframe = document.createElement('iframe');
+    iframe.src="http://127.0.0.1:5500/achieve-principle/8.cross-domain/5.locationHash/middlePage.html#overlocationhash"
+    document.body.appendChild(iframe);
+  </script>
+</body>
+</html>
