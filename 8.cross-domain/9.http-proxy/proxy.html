@@ -9,12 +9,13 @@
 <body>
   hello http-proxy实现跨域
   <script>
+    // 分别启动server.js 和 server4000.js 两个文件，访问http://localhost:3000/proxy.html 即可实现
     let xhr = new XMLHttpRequest;
-    xhr.open('GET', 'http://localhost:3000/api', true);
+    xhr.open('GET', '/api', true);
     xhr.onreadystatechange = function() {
       if (xhr.readyState === 4) {
         if ((xhr.status >=200 && xhr.status < 300) || xhr.status === 304) {
-          cosnole.log(xhr.response);
+          console.log(xhr.response);
         }
       }
     }
