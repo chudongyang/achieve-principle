@@ -7,8 +7,8 @@ app.use(function(req,res,next){
   if (whiteList.includes(req.headers.origin)){
     // 设置允许跨域的地址, 这里最好不要设置为'*', 否则不允许强制携带cookie
     res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
-    // 设置跨域时候允许携带的请求头
-    res.setHeader('Access-Control-Allow-Headers', 'token');
+    // 设置跨域时候允许携带的请求头, 这里如果是多个请求头注意写法
+    res.setHeader('Access-Control-Allow-Headers', 'token,Content-Type');
     // 设置允许你跨域请求的方法
     res.setHeader('Access-Control-Allow-Methods', 'PUT');
     // 设置options预请求发送的时间间隔
